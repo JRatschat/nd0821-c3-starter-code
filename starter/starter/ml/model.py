@@ -1,3 +1,6 @@
+import pickle
+
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
 
@@ -17,8 +20,10 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
+    model = RandomForestClassifier(n_jobs=-1)
+    model.fit(X_train, y_train)
 
-    pass
+    return model
 
 
 def compute_model_metrics(y, preds):
@@ -57,4 +62,22 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    preds = model.predict(X)
+
+    return preds
+
+
+def save_model(model, path):
+    """ Saves trained model.
+
+    Inputs
+    ------
+    model: ???
+        Trained machine learning model
+    path: str
+        Directory for saving pickle file.
+    Returns
+    -------
+    None
+    """
+    pickle.dump(model, open(path, "wb"))
