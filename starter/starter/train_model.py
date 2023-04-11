@@ -5,7 +5,13 @@ import pandas as pd
 
 # Add the necessary imports for the starter code.
 from ml.data import process_data
-from ml.model import compute_model_metrics, inference, save_model, train_model
+from ml.model import (
+    compute_model_metrics,
+    inference,
+    save_as_pickle,
+    slice_performance,
+    train_model,
+)
 from sklearn.model_selection import train_test_split
 
 # Add code to load in the data.
@@ -53,4 +59,13 @@ print(
     Recall: {round(recall, 4)}
     Fbeta: {round(fbeta, 4)}
     """
+    )
+
+# Calculate and save slicing performance
+slice_performance(
+    test,
+    "salary",
+    preds,
+    cat_features,
+    Path().cwd() / "starter/model/slice_output.txt"
     )

@@ -67,17 +67,49 @@ def inference(model, X):
     return preds
 
 
-def save_model(model, path):
-    """ Saves trained model.
+def save_as_pickle(object, path):
+    """ Saves object to pickle.
 
     Inputs
     ------
-    model: ???
-        Trained machine learning model
+    object: ???
+        Object to be saved.
     path: str
         Directory for saving pickle file.
     Returns
     -------
     None
     """
-    pickle.dump(model, open(path, "wb"))
+    pickle.dump(object, open(path, "wb"))
+
+
+def slice_performance(data, label, preds, cols, path):
+    """ Calculates sliced model performance and saves output to path.
+
+    Inputs
+    ------
+    data: pd.DataFrame
+        Data frame with input data.
+    label: str
+        Name of column that contains label.
+    preds: pd.Series
+        Model's predictions.
+    cols: List[str]
+        List of column names that should be sliced (categorical values)
+    path: str
+        Path to which slice performance should be written to.
+    Returns
+    -------
+    None
+    """
+    data["preds"] = preds
+    label_category_0 = data[label].unique()[0]
+    data["label_true"] = [0 if x==label_category_0 else 1 for x in data[label]]
+    with open(path, "w") as f:
+        print("Column", "Category", "Precision", "Recall", "Fbeta", file=f)
+        for col in cols:
+            for category in data[col].unique():
+                label_true = data[lambda x: x[col] == category]["label_true"]
+                preds = data[lambda x: x[col] == category]["preds"]
+                precision, recall, fbeta = compute_model_metrics(label_true, preds)
+                print(col, category, round(precision, 4), round(recall, 4), round(fbeta, 4), file=f)
