@@ -12,6 +12,6 @@ data.columns = [col.replace(" ", "") for col in data.columns]
 data = data.replace(" ", "")
 
 # Save cleaned data
-data.to_csv("starter/data/census_cleaned.csv")
+data.to_csv("starter/data/census_cleaned.csv", index=False)
 print(data.head())
 print(data.info())
