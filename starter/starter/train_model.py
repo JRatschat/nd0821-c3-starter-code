@@ -35,8 +35,15 @@ X_train, y_train, encoder, lb = process_data(
     train, categorical_features=cat_features, label="salary", training=True
 )
 
+save_as_pickle(encoder, Path().cwd() / "starter/model/encoder.sav")
+save_as_pickle(lb, Path().cwd() / "starter/model/lb.sav")
+
+# Train and save a model.
+model = train_model(X_train, y_train)
+save_as_pickle(model, Path().cwd() / "starter/model/model.sav")
+
 # Proces the test data with the process_data function and save encoder and lb.
-X_test, y_test, encoder, lb = process_data(
+X_test, y_test, _, _ = process_data(
     test,
     categorical_features=cat_features,
     label="salary",
@@ -44,12 +51,7 @@ X_test, y_test, encoder, lb = process_data(
     encoder=encoder,
     lb=lb,
 )
-save_as_pickle(encoder, Path().cwd() / "starter/model/encoder.sav")
-save_as_pickle(lb, Path().cwd() / "starter/model/lb.sav")
 
-# Train and save a model.
-model = train_model(X_train, y_train)
-save_as_pickle(model, Path().cwd() / "starter/model/model.sav")
 
 # Test model and print evaluation metrics
 preds = inference(model, X_test)
