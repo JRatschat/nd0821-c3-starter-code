@@ -47,6 +47,26 @@ class InferenceData(BaseModel):
     hours_per_week: int = Field(default=40, alias="hours-per-week")
     native_country: str = Field(default="United-States", alias="native-country")
 
+    class Config:
+        schema_extra = {
+            "example": {
+            "age": "32",
+            "workclass": "Private",
+            "fnlgt": "280464",
+            "education": "Bachelors",
+            "education_num": "education-num",
+            "marital_status": "Never-married",
+            "occupation": "Adm-clerical",
+            "relationship": "Not-in-family",
+            "race": "Black",
+            "sex": "Male",
+            "capital_gain": "0",
+            "capital_loss": "0",
+            "hours_per_week": "40",
+            "native_country": "United-States",
+            }
+        }
+
 
 @app.get("/")
 async def read_root():
